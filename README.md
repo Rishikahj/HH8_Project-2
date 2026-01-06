@@ -1,2 +1,7 @@
 # HH8_Project-2
-CTF Challenge Platform
+Title: CTF Challenge Platform
+Objective: Simple web-based security challenge platform
+Tools:
+    -PHP
+    -Docker
+    -SQL
