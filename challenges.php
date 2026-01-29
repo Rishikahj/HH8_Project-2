@@ -8,7 +8,7 @@ $result = mysqli_query($conn, $query);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CTF Challenges</title>
+    <title>CTF Challenge Platform</title>
     <style>
         body { font-family: Arial, sans-serif; }
         .challenge {
@@ -38,3 +38,4 @@ $result = mysqli_query($conn, $query);
 
 </body>
 </html>
+
