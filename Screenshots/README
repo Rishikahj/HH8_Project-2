@@ -1,8 +1,10 @@
-## Screenshots
+# Screenshots
 
-### Challenges Page
-![Challenges Page](screenshots/challenges_page.png)
+This folder contains screenshots demonstrating the working of the CTF Challenge Platform.
 
-### Flag Validation – Correct
-![Correct Flag](screenshots/correct_flag.png)
+## Included Screenshots
+- Challenge listing page showing available CTF challenges
+- Correct flag submission result
+- Wrong flag submission result (if included)
 
+These screenshots are provided for quick visual verification of the application's functionality.
