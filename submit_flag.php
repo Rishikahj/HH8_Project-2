@@ -1,43 +1,45 @@
 <?php
+session_start();
 include 'db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $challenge_id = $_POST['challenge_id'];
-    $user_flag = $_POST['flag'];
+if(!isset($_SESSION['user_id'])){
+    header("Location: login.php");
+    exit();
+}
 
-    // Fetch correct flag from database
-    $query = "SELECT flag FROM challenges WHERE id = $challenge_id";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
+$user_id = $_SESSION['user_id'];
 
-    if ($row) {
-        $correct_flag = $row['flag'];
+$challenge_id = $_POST['challenge_id'];
+$entered_flag = $_POST['flag'];
 
-        if ($user_flag === $correct_flag) {
-            $status = "Correct";
-            $message = "✅ Correct Flag! Well done.";
-        } else {
-            $status = "Wrong";
-            $message = "❌ Wrong Flag. Try again.";
-        }
+// Get correct flag + points
+$query = "SELECT flag, points FROM challenges WHERE id='$challenge_id'";
+$result = mysqli_query($conn, $query);
 
-        // Store submission result
-        $insert = "INSERT INTO submissions (submitted_flag, result)
-                   VALUES ('$user_flag', '$status')";
-        mysqli_query($conn, $insert);
-    } else {
-        $message = "Invalid challenge.";
+$challenge = mysqli_fetch_assoc($result);
+
+if($challenge){
+
+    if($entered_flag === $challenge['flag']){
+
+        $points = $challenge['points'];
+
+        // ⭐ ADD SCORE
+        mysqli_query($conn,
+        "UPDATE users 
+         SET score = score + $points 
+         WHERE id = $user_id");
+
+        echo "<h2>✅ Correct Flag! +$points points</h2>";
+        echo "<a href='challenges.php'>Back to Challenges</a>";
+
+    }else{
+
+        echo "<h2>❌ Wrong Flag! Try again.</h2>";
+        echo "<a href='challenges.php'>Back</a>";
     }
+
+}else{
+    echo "Challenge not found.";
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Flag Result</title>
-</head>
-<body>
-    <h2><?php echo $message; ?></h2>
-    <a href="challenges.php">Back to Challenges</a>
-</body>
-</html>
